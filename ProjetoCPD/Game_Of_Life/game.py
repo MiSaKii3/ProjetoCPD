@@ -1,3 +1,22 @@
+"""
+Neste ficheiro encontra-se implementada a versão sequencial e paralela do Game of Life.
+
+Conteúdo deste ficheiro:
+
+- Função auxiliar para contagem de vizinhos vivos;
+- Função responsável pelo cálculo do próximo estado de cada célula;
+- Versão sequencial da simulação;
+- Versão paralela com recurso a multiprocessing;
+- Divisão da grelha em regiões independentes;
+- Comunicação entre processos através de Queue;
+- Sincronização entre gerações da simulação.
+
+"""
+
+# ============================================================
+# IMPORTS
+# ============================================================
+
 import multiprocessing
 
 # ============================================================
@@ -8,9 +27,13 @@ def count_neighbors(grid, row, col):
     """
     Conta o número de vizinhos vivos de uma célula.
 
-    A função verifica as 8 posições adjacentes
-    (horizontal, vertical e diagonal), respeitando
-    os limites da grelha.
+    A função verifica as 8 posições adjacentes:
+    - horizontal;
+    - vertical;
+    - diagonal;
+
+    A grelha não é cíclica, pelo que células
+    nas fronteiras possuem menos vizinhos.
 
     Args:
         grid (list[list[int]]):
@@ -32,6 +55,7 @@ def count_neighbors(grid, row, col):
 
     neighbors = 0
 
+    #Percorre posições adjacentes
     for r in range(row - 1, row + 2):
         for c in range(col - 1, col + 2):
 
@@ -50,6 +74,12 @@ def compute_next_state(grid, row, col):
     """
     Calcula o próximo estado de uma célula
     de acordo com as regras do Game of Life.
+
+    Regras:
+    - uma célula viva com menos de 2 vizinhos morre;
+    - uma célula viva com 2 ou 3 vizinhos sobrevive;
+    - uma célula viva com mais de 3 vizinhos morre;
+    - uma célula morta com exatamente 3 vizinhos nasce.
 
     Args:
         grid (list[list[int]]):
@@ -70,10 +100,14 @@ def compute_next_state(grid, row, col):
 
     alive_neighbors = count_neighbors(grid, row, col)
 
-    cell = grid[row][col]
+    current_cell = grid[row][col]
+
+    # ============================================================
+    # CÉLULA MORTA
+    # ============================================================
 
     # Célula viva
-    if cell == 1:
+    if current_cell == 1:
 
         # Subpopulação ou sobrepopulação
         if alive_neighbors < 2 or alive_neighbors > 3:
@@ -81,6 +115,10 @@ def compute_next_state(grid, row, col):
 
         # Sobrevive
         return 1
+
+    # ============================================================
+    # CÉLULA MORTA
+    # ============================================================
 
     # Reprodução
     if alive_neighbors == 3:
@@ -100,7 +138,8 @@ def game_of_life_sequential(grid, generations):
 
     A grelha evolui durante um número fixo
     de gerações, aplicando as regras do jogo
-    simultaneamente a todas as células.
+    simultaneamente a todas as células, que
+    são processadas num único processo.
 
     Args:
         grid (list[list[int]]):
@@ -118,12 +157,19 @@ def game_of_life_sequential(grid, generations):
     rows = len(grid)
     cols = len(grid[0])
 
+    # Cópia da grelha inical
     current_grid = [row[:] for row in grid]
+
+    # ============================================================
+    # PROCESSAMENTO DAS GERAÇÕES
+    # ============================================================
 
     for _ in range(generations):
 
+        # Nova geração
         new_grid = [[0 for _ in range(cols)] for _ in range(rows)]
 
+        # Atualização de cada célula
         for row in range(rows):
             for col in range(cols):
 
@@ -133,6 +179,7 @@ def game_of_life_sequential(grid, generations):
                     col
                 )
 
+        # Atualiza a grelha atual
         current_grid = new_grid
 
     return current_grid
@@ -142,15 +189,11 @@ def game_of_life_sequential(grid, generations):
 # WORKER PARALELO
 # ============================================================
 
-def game_of_life_worker(grid,
-                        start_row,
-                        end_row,
-                        result_queue):
-    """
+"""
     Worker responsável pelo processamento
     de uma região da grelha.
 
-    Cada worker calcula o próximo estado
+    Cada worker cálcula o próximo estado
     das células pertencentes ao intervalo
     de linhas atribuído.
 
@@ -167,11 +210,21 @@ def game_of_life_worker(grid,
         result_queue:
             Queue utilizada para devolver
             os resultados ao processo principal.
+            
     """
+
+def game_of_life_worker(grid,
+                        start_row,
+                        end_row,
+                        result_queue):
 
     cols = len(grid[0])
 
     partial_result = []
+
+    # ============================================================
+    # PROCESSAMENTO DAS LINHAS ATRIBUÍDAS
+    # ============================================================
 
     for row in range(start_row, end_row):
 
@@ -183,8 +236,10 @@ def game_of_life_worker(grid,
                 compute_next_state(grid, row, col)
             )
 
+        # Guarda linha calculada
         partial_result.append((row, new_row))
 
+    #Envia resultado parcial
     result_queue.put(partial_result)
 
 
@@ -192,9 +247,6 @@ def game_of_life_worker(grid,
 # VERSÃO PARALELA
 # ============================================================
 
-def game_of_life_parallel(grid,
-                          generations,
-                          workers):
     """
     Simula o Game of Life recorrendo
     a múltiplos processos em paralelo.
@@ -224,10 +276,21 @@ def game_of_life_parallel(grid,
             as gerações.
     """
 
+def game_of_life_parallel(grid,
+                          generations,
+                          workers):
+
     rows = len(grid)
     cols = len(grid[0])
 
+    #Evita criar mais workers do que linhas
+    workers = min(workers, rows)
+
     current_grid = [row[:] for row in grid]
+
+    # ============================================================
+    # EXECUÇÃO DAS GERAÇÕES
+    # ============================================================
 
     for _ in range(generations):
 
@@ -235,17 +298,22 @@ def game_of_life_parallel(grid,
 
         processes = []
 
-        rows_per_worker = rows // workers
+        #Divisão equilibrada das linhas
+        base_rows = rows // workers
+        extra_rows = rows % workers
+
+        current_start = 0
 
         for i in range(workers):
 
-            start_row = i * rows_per_worker
+            #Alguns workers recebem +1 linha
+            rows_for_this_worker = base_rows
 
-            # Último worker fica com o restante
-            if i == workers - 1:
-                end_row = rows
-            else:
-                end_row = start_row + rows_per_worker
+            if i < extra_rows:
+                rows_for_this_worker += 1
+
+            start_row = current_start
+            end_row = start_row + rows_for_this_worker
 
             process = multiprocessing.Process(
                 target=game_of_life_worker,
@@ -261,6 +329,8 @@ def game_of_life_parallel(grid,
 
             process.start()
 
+            current_start = end_row
+
         # Nova grelha
         new_grid = [[0 for _ in range(cols)] for _ in range(rows)]
 
@@ -272,10 +342,12 @@ def game_of_life_parallel(grid,
             for row_index, row_data in partial_result:
                 new_grid[row_index] = row_data
 
-        # Espera pelos workers
+        # Espera pelos workers - sincronização dos processos
         for process in processes:
             process.join()
 
+        #Apenas após todos os workers terminarem
+        #a nova geração é validada
         current_grid = new_grid
 
     return current_grid

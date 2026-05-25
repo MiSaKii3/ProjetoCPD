@@ -100,44 +100,88 @@ def test_parallel(rows=50, cols=50, generations=10, workers=4):
 Objetivo: Comparar diretamente as versões sequencial e paralela
 """
 
+def compare_versions(rows = 200,
+                     cols = 200,
+                     generations = 20,
+                     workers = 4):
 
-def compare_versions(rows=50, cols=50, generations=10, workers=4):
-    print("\n=== COMPARAÇÃO ===")
+    #Pequenos ajustes estéticos
+    print("\n" + "=" * 50)
+    print("COMPARAÇÃO ENTRE VERSÕES")
+    print("=" * 50)
 
     # Criar mesma grelha para ambas versões
     import random
-    random.seed(42)  # Para resultados reproduzíveis
-    grid_seq = [[random.choice([0, 1]) for _ in range(cols)] for _ in range(rows)]
-    random.seed(42)
-    grid_par = [[random.choice([0, 1]) for _ in range(cols)] for _ in range(rows)]
 
-    # Sequencial
+    random.seed(42)  # Para resultados reproduzíveis
+
+    grid = [[random.choice([0, 1]) for _ in range(cols)]
+            for _ in range(rows)
+    ]
+
+    # --------------------------------------------------------------------
+    # SEQUENCIAL
+    # --------------------------------------------------------------------
+
     start_seq = time.time()
-    seq_result = game_of_life_sequential(grid_seq, generations)
+
+    seq_result = game_of_life_sequential(
+        grid,
+        generations
+    )
+
     seq_time = time.time() - start_seq
 
-    # Paralela
+    # --------------------------------------------------------------------
+    # PARALELA
+    # --------------------------------------------------------------------
+
     start_par = time.time()
-    par_result = game_of_life_parallel(grid_par, generations, workers)
+
+    par_result = game_of_life_parallel(
+        grid,
+        generations,
+        workers
+    )
+
     par_time = time.time() - start_par
 
-    print("\n=== RESULTADOS ===")
-    print(f"Sequencial: Grelha final de {rows}x{cols}")
-    print(f"Paralela: Grelha final de {rows}x{cols}")
+    # --------------------------------------------------------------------
+    # RESULTADOS
+    # --------------------------------------------------------------------
+
+    print(f"\nDimensão: {rows}x{cols}")
+    print(f"Gerações: {generations}")
+    print(f"Workers: {workers}")
 
     print("\n=== TEMPOS ===")
-    print(f"Sequencial: {seq_time:.2f}s")
-    print(f"Paralela: {par_time:.2f}s")
+    print(f"Sequencial: {seq_time:.4f}s")
+    print(f"Paralela: {par_time:.4f}s")
+
+    #Consistência
+    print("\n--- CONSISTENCIA ---")
+
+    if seq_result == par_result:
+        print("Resultados iguais")
+    else:
+        print("Resultados diferentes")
 
     # Speedup
     if par_time > 0:
+
         speedup = seq_time / par_time
-        print(f"\nSpeedup: {speedup:.2f}x")
+
+        print("\n--- DESEMPENHO ---")
+        print(f"Speedup: {speedup:.2f}x")
+
+        efficiency = speedup / workers
+
+        print(f"Eficiência: {efficiency:.2f}")
 
         if speedup > 1:
-            print("✓ Versão paralela foi mais rápida")
+            print("Versão paralela foi mais rápida")
         else:
-            print("✗ Versão sequencial foi mais rápida (overhead do paralelismo)")
+            print("Versão sequencial foi mais rápida (overhead do paralelismo)")
 
 
 # --------------------------------------------------------------------
