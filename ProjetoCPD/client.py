@@ -36,8 +36,9 @@ def start_client():
     client_socket.connect((HOST, PORT))
 
     request = {
-        "operation": "test",
-        "message": "Olá servidor"
+        "operation": "prime_parallel",
+        "timeout": 5,
+        "workers": 4
     }
 
     send_message(client_socket, request)
@@ -48,6 +49,25 @@ def start_client():
     print(response)
 
     client_socket.close()
+
+def send_request(request):
+
+    client_socket = socket.socket(
+        socket.AF_INET,
+        socket.SOCK_STREAM
+    )
+
+    client_socket.connect((HOST, PORT))
+
+    send_message(client_socket, request)
+
+    response = receive_message(client_socket)
+
+    client_socket.close()
+
+    return response
+
+
 
 # ============================================================
 # EXECUÇÃO

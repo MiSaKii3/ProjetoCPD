@@ -2,9 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="71eaccbb-ccc4-44ec-98e3-0fbf9baed4a5" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/ProjetoCPD/server.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjetoCPD/Game_Of_Life/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/ProjetoCPD/Game_Of_Life/game.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjetoCPD/Game_Of_Life/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/ProjetoCPD/Game_Of_Life/test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjetoCPD/Game_Of_Life/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/ProjetoCPD/game_of_life.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjetoCPD/Game_Of_Life/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/ProjetoCPD/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjetoCPD/Game_Of_Life/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/ProjetoCPD/test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjetoCPD/NúmerosPrimos/.idea/NúmerosPrimos.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjetoCPD/NúmerosPrimos/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjetoCPD/NúmerosPrimos/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjetoCPD/NúmerosPrimos/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjetoCPD/NúmerosPrimos/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjetoCPD/NúmerosPrimos/main.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjetoCPD/NúmerosPrimos/primos.py" beforeDir="false" afterPath="$PROJECT_DIR$/ProjetoCPD/primos.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjetoCPD/NúmerosPrimos/testes.py" beforeDir="false" afterPath="$PROJECT_DIR$/ProjetoCPD/testes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjetoCPD/Server/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/ProjetoCPD/client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjetoCPD/Server/rpc_protocol.py" beforeDir="false" afterPath="$PROJECT_DIR$/ProjetoCPD/rpc_protocol.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjetoCPD/Server/server.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjetoCPD/Server/tests_rpc.py" beforeDir="false" afterPath="$PROJECT_DIR$/ProjetoCPD/teste_final.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,32 +49,112 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;Python.game.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.primos.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test.executor&quot;: &quot;Run&quot;,
-    &quot;Python.testes.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Feature/game&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Facul/ProjetoCPD&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python.client.executor": "Run",
+    "Python.game.executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.primos.executor": "Run",
+    "Python.server.executor": "Run",
+    "Python.test.executor": "Run",
+    "Python.teste_final.executor": "Run",
+    "Python.testes.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "git-widget-placeholder": "Feature/Centralização",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Facul/ProjetoCPD"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Facul\ProjetoCPD\ProjetoCPD" />
     </key>
   </component>
+  <component name="RunManager">
+    <configuration name="client" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="ProjetoCPD" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="SDK_NAME" value="Python 3.12 (ProjetoCPD)" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/ProjetoCPD/Server" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="false" />
+      <option name="RUN_TOOL" value="" />
+      <option name="SCRIPT_NAME" value="C:\Facul\ProjetoCPD\ProjetoCPD\client.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="server" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="ProjetoCPD" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="SDK_NAME" value="Python 3.12 (ProjetoCPD)" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/ProjetoCPD" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="false" />
+      <option name="RUN_TOOL" value="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/ProjetoCPD/server.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="teste_final" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="ProjetoCPD" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="SDK_NAME" value="Python 3.12 (ProjetoCPD)" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/ProjetoCPD" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="false" />
+      <option name="RUN_TOOL" value="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/ProjetoCPD/teste_final.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-2653e85de345-6d6dccd035ac-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-253.31033.139" />
+        <option value="bundled-python-sdk-c59985aa861c-c2ffad84badb-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-261.24374.152" />
       </set>
     </attachedChunks>
   </component>
