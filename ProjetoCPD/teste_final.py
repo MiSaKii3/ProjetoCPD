@@ -1,10 +1,3 @@
-from primos import *
-from game_of_life import *
-from client import send_request
-
-import time
-import random
-
 """
 Ficheiro central de testes automáticos do projeto CPD.
 
@@ -389,12 +382,10 @@ def test_rpc_prime():
 
     request = {
 
-        "method": "prime_parallel",
+        "operation": "prime_parallel",
 
-        "params": {
-            "timeout": 5,
-            "workers": 4
-        }
+        "timeout" : 5,
+        "workers" : 4
 
     }
 
@@ -416,21 +407,17 @@ def test_rpc_game():
 
     request = {
 
-        "method": "game_parallel",
+        "operation": "game_parallel",
 
-        "params": {
+        "grid": [
+            [0, 1, 0],
+            [0, 1, 0],
+            [0, 1, 0]
 
-            "grid": [
+        ],
 
-                [0, 1, 0],
-                [0, 1, 0],
-                [0, 1, 0]
-
-            ],
-
-            "generations": 5,
-            "workers": 4
-        }
+        "generations": 5,
+        "workers": 4
 
     }
 
@@ -438,30 +425,6 @@ def test_rpc_game():
 
     print("\nResposta do servidor:")
     print(response)
-
-
-# ------------------------------------------------------------
-# TESTE RPC - list_methods
-# ------------------------------------------------------------
-
-def test_list_methods():
-
-    print("\n" + "=" * 60)
-    print("TESTE RPC - LIST METHODS")
-    print("=" * 60)
-
-    request = {
-
-        "method": "list_methods",
-        "params": {}
-
-    }
-
-    response = send_request(request)
-
-    print("\nMétodos disponíveis:")
-    print(response)
-
 
 # ============================================================
 # EXECUÇÃO
@@ -518,10 +481,9 @@ if __name__ == "__main__":
     # ========================================================
 
     # IMPORTANTE:
-    # O servidor deve estar em execução.
+    # O servidor deve estar em execução para que os testes
+    # funcionem corretamente.
 
     test_rpc_prime()
 
     test_rpc_game()
-
-    test_list_methods()

@@ -2,6 +2,14 @@
 Neste ficheiro encontra-se o cliente RPC responsável por
 enviar pedidos ao servidor.
 
+O cliente estabelece ligação TCP com o servidor,
+envia pedidos remotos (RPC) e recebe os respetivos
+resultados.
+
+Operações suportadas:
+- procura de números primos;
+- Game of Life.
+
 """
 
 # ============================================================
@@ -23,32 +31,23 @@ HOST = "127.0.0.1"
 PORT = 5000
 
 # ============================================================
-# CLIENTE
+# ENVIO DE PEDIDOS
 # ============================================================
 
-def start_client():
+"""
+A função send_request envia um pedido RPC ao servidor.
 
-    client_socket = socket.socket(
-        socket.AF_INET,
-        socket.SOCK_STREAM
-    )
+Args:
+    request:
+        Pedido que contém:
+        - operação;
+        - argumentos;
+        - parametros;
 
-    client_socket.connect((HOST, PORT))
+Returns:
+    Resposta enviada pelo servidor.
 
-    request = {
-        "operation": "prime_parallel",
-        "timeout": 5,
-        "workers": 4
-    }
-
-    send_message(client_socket, request)
-
-    response = receive_message(client_socket)
-
-    print("[CLIENT]")
-    print(response)
-
-    client_socket.close()
+"""
 
 def send_request(request):
 
@@ -59,8 +58,10 @@ def send_request(request):
 
     client_socket.connect((HOST, PORT))
 
+    #Envia o pedido
     send_message(client_socket, request)
 
+    #Recebe resposta
     response = receive_message(client_socket)
 
     client_socket.close()
@@ -74,4 +75,6 @@ def send_request(request):
 # ============================================================
 
 if __name__ == "__main__":
-    start_client()
+    print("=" * 50)
+    print("CLIENTE RPC")
+    print("=" * 50)
