@@ -250,7 +250,7 @@ def test_game_sequential(rows = 50,
 
 
 # ------------------------------------------------------------
-# TESTE PARALELO
+# TESTE PARALEL
 # ------------------------------------------------------------
 
 def test_game_parallel(rows = 50,
