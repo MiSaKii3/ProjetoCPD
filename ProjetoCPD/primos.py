@@ -68,7 +68,6 @@ Estratégias a adotar:
 def find_max_prime_sequential(timeout: int) -> int:
 
     #Guarda o instante inicial
-
     start_time = time.time()
 
     # Melhor resultado encontrado até ao momento

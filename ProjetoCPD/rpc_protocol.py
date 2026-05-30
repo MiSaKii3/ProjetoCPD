@@ -34,8 +34,10 @@ Args:
 
 def send_message(connection, message):
 
+    # Converte o dicionário para JSON
     data = json.dumps(message)
 
+    #Envia todos os bytes da mensagem
     connection.sendall(data.encode())
 
 # ============================================================
@@ -56,6 +58,8 @@ Args:
 
 def receive_message(connection):
 
+    # Recebe dados enviados pelo socket
     data = connection.recv(4096).decode()
 
+    # Converte JSON para dicionário Python
     return json.loads(data)

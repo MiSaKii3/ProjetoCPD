@@ -12,18 +12,40 @@ Este trabalho inclui:
 
 ---
 
-# Estrtutura do projeto
+# Estrutura do projeto
 
-- primos.py
-    Implementação da procura de números primos.
+- **primos.py**
+    - Implementação da procura de números primos.
+  
+- **game_of_life.py**
+  - Implementação sequencial e paralela do Game of Life.
+  
+- **rpc_protocol.py**
+    - Protocolo de comunicação RPC com serialização JSON.
+  
+- **server.py**
+    - Servidor RCP responsável pelo processamento dos pedidos.
+  
+- **client.py**
+    - Cliente RPC para envio de pedidos remotos.
 
-- testes.py
-    Testes automáticos e comparação de desempenho.
+- **testes.py**
+    - Testes automáticos e análise de desempenho.
+    
+---
+ 
+## Tecnologias usadas
+
+- multiprocessing
+- threading
+- socket
+- json
 
 ---
 
-# Execução
+## Execução
 
-## Executar testes
+### Passos
 
-- testes.py
+1. Iniciar o servidor;
+2. Iniciar os testes.

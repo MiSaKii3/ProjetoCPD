@@ -64,6 +64,7 @@ Returns:
 
 def process_request(request):
 
+    # Vai buscar a operação pedida pelo cliente
     operation = request.get("operation")
 
     # ============================================================
@@ -72,10 +73,13 @@ def process_request(request):
 
     if operation == "prime_sequential":
 
+        # Tempo máximo de execução
         timeout = request.get("timeout", 5)
 
+        # Executa a operação
         result = find_max_prime_sequential(timeout)
 
+        #Resposta RPC
         return {
             "status": "ok",
             "operation": operation,
@@ -90,8 +94,10 @@ def process_request(request):
 
         timeout = request.get("timeout", 5)
 
+        # Número de workers pedidos pelo cliente
         workers = request.get("workers", 4)
 
+        # Executa a versão paralela
         result = find_max_prime_parallel(
             timeout,
             workers
@@ -110,6 +116,7 @@ def process_request(request):
 
     elif operation == "game_sequential":
 
+        # Grelha inicial enviada pelo cliente
         grid = request.get("grid")
 
         generations = request.get(
@@ -117,6 +124,7 @@ def process_request(request):
             10
         )
 
+        # executa a simulação
         result = game_of_life_sequential(
             grid,
             generations
@@ -146,6 +154,7 @@ def process_request(request):
             4
         )
 
+        # Executa a versão paralela
         result = game_of_life_parallel(
             grid,
             generations,
@@ -163,6 +172,7 @@ def process_request(request):
     # OPERAÇÃO INVÁLIDA
     # ============================================================
 
+    # Operação não reconhecida pelo servidor
     return {
         "status": "error",
         "message": "operação inválida"
@@ -193,7 +203,7 @@ def handle_client(connection, address):
 
     try:
 
-        # Recebe pedido
+        # Recebe pedido do cliente
         request = receive_message(connection)
 
         print("[SERVER] Pedido recebido:")
@@ -202,7 +212,7 @@ def handle_client(connection, address):
         # Processa a operação
         response = process_request(request)
 
-        # Envia resposta
+        # Envia resposta ao cliente
         send_message(connection, response)
 
         print("[SERVER] Resposta enviada")
@@ -212,6 +222,7 @@ def handle_client(connection, address):
         print("[SERVER] erro:")
         print(error)
 
+        # Em caso de erro devolve uma mensagem ao cliente
         send_message(connection, {
             "status": "error",
             "message": str(error)
@@ -219,6 +230,7 @@ def handle_client(connection, address):
 
     finally:
 
+        # Fecha sempre a ligação
         connection.close()
 
         print("[SERVER] Ligação encerrada")
@@ -241,6 +253,7 @@ Funções:
 
 def start_server():
 
+    # Criação do socket TCP
     server_socket = socket.socket(
         socket.AF_INET,
         socket.SOCK_STREAM
@@ -253,8 +266,10 @@ def start_server():
         1
     )
 
+    # Associação do socket ao endereço local
     server_socket.bind((HOST, PORT))
 
+    # Coloca o socket em modo de escuta
     server_socket.listen()
 
     print("=" * 50)
@@ -268,7 +283,7 @@ def start_server():
         # Aceita ligação
         connection, address = server_socket.accept()
 
-        #Criação da thread
+        # Criação de uma thread dedicada ao cliente
         thread = threading.Thread(
             target=handle_client,
             args=(connection, address)
@@ -283,4 +298,6 @@ def start_server():
 # ============================================================
 
 if __name__ == "__main__":
+
+    #Arranque do servidor
     start_server()

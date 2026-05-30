@@ -103,7 +103,7 @@ def compute_next_state(grid, row, col):
     current_cell = grid[row][col]
 
     # ============================================================
-    # CÉLULA MORTA
+    # CÉLULA VIVA
     # ============================================================
 
     # Célula viva
@@ -239,7 +239,7 @@ def game_of_life_worker(grid,
         # Guarda linha calculada
         partial_result.append((row, new_row))
 
-    #Envia resultado parcial
+    # Envia resultado parcial
     result_queue.put(partial_result)
 
 
@@ -294,6 +294,7 @@ def game_of_life_parallel(grid,
 
     for _ in range(generations):
 
+        # Queue usada para recolha de resultados
         result_queue = multiprocessing.Queue()
 
         processes = []
@@ -304,6 +305,8 @@ def game_of_life_parallel(grid,
 
         current_start = 0
 
+        #Os primeiros workers recebem uma linha extra
+        #caso a divisão não seja exata
         for i in range(workers):
 
             #Alguns workers recebem +1 linha
@@ -315,6 +318,8 @@ def game_of_life_parallel(grid,
             start_row = current_start
             end_row = start_row + rows_for_this_worker
 
+            # Criação do processo responsável
+            # pela região atribuída
             process = multiprocessing.Process(
                 target=game_of_life_worker,
                 args=(
@@ -331,10 +336,13 @@ def game_of_life_parallel(grid,
 
             current_start = end_row
 
-        # Nova grelha
+        # Nova grelha da geração seguinte
         new_grid = [[0 for _ in range(cols)] for _ in range(rows)]
 
         # Recolha de resultados
+        # Grelha reconstruída a partir dos
+        # resultados enviados pelos workers
+
         for _ in range(workers):
 
             partial_result = result_queue.get()
